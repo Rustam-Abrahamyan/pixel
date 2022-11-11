@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "strict": false,
+        "target": "es5",
+        "declaration": false,
+        "rootDir": ".",
+        "stripInternal": true,
+        "sourceMap": true
+    },
+    "include": ["./src/"],
+    "exclude": ["node_modules"]
+}
