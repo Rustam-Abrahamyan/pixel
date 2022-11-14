@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
     mode: process.env.mode,
     devtool: "inline-source-map",
-    entry: "./src/index.ts",
+    entry: "./public/index.ts",
     target: "web",
     output: {
         path: path.resolve(__dirname, "./public"),
