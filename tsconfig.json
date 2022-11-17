@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
         "strict": false,
-        "target": "es5",
+        "target": "ES2016",
         "declaration": false,
         "rootDir": ".",
         "stripInternal": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "moduleResolution": "node"
     },
     "include": ["./src/"],
     "exclude": ["node_modules"]

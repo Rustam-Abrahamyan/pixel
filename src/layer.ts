@@ -1,5 +1,4 @@
-import Shape, { IShape } from "./shape";
-
+import Shape, { ShapeStyles } from "./shape";
 class Layer {
     name: string;
     shapes: any[];
@@ -9,8 +8,8 @@ class Layer {
         this.shapes = [];
     }
 
-    createShape(type: string = "", options: IShape) {
-        const shape = new Shape(type, options);
+    createShape(styles: ShapeStyles) {
+        const shape = new Shape(styles);
 
         this.shapes.push(shape);
 
