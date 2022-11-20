@@ -7,8 +7,8 @@ const scene = new Scene();
 const layer = scene.createLayer();
 const shapeCircle = layer
     .createShape({ fill: fillColor })
-    .circle(100, 100, 50)
-    .on("contextmenu", (e) => {        
+    .circle(150, 150, 50)
+    .on("contextmenu", (e) => {
         console.log("Custom context menu");
     })
     .on("hover", (e) => {
@@ -22,20 +22,29 @@ const shapeCircle = layer
     });
 const shapeRect = layer
     .createShape({ fill: fillColor })
-    .rect(200, 75, 100, 50)
+    .rect(300, 125, 100, 50)
     .on("hover", (e) => {
         console.log("Rect :>> hover");
     })
     .on("leave", (e) => {
         console.log("Rect :>> leave");
     });
+const shapeRoundRect = layer
+    .createShape({ fill: fillColor })
+    .roundRect(500, 125, 100, 50, [50, 50, 50, 50])
+    .on("hover", (e) => {
+        console.log("RoundRect :>> hover");
+    })
+    .on("leave", (e) => {
+        console.log("RoundRect :>> leave");
+    });
 
 const canvas = document.getElementById("canvas");
 
 // @ts-ignore: Object is possibly 'null'.
-canvas.width = 500;
+canvas.width = window.innerWidth;
 // @ts-ignore: Object is possibly 'null'.
-canvas.height = 250;
+canvas.height = window.innerHeight;
 
 // @ts-ignore: Object is possibly 'null'.
 const context = canvas.getContext("2d");
@@ -45,6 +54,7 @@ renderer.render(scene);
 renderer.onFrameChanged = () => {
     shapeCircle.update({ fill: fillColor });
     shapeRect.update({ fill: fillColor });
+    shapeRoundRect.update({ fill: fillColor });
 };
 
 window.onload = () => {
