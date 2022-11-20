@@ -1,4 +1,9 @@
-import Shapes from "./shapes";
+import Shapes, { createPath2D } from "./shapes";
+import { EventHandlerItem, IEventHandler } from "./events/eventHandler";
+import { EventType, Interactive } from "./events/interactive";
+import ContextFactory from "./contextProvider";
+import Point from "./point";
+import { uuid } from "./utils";
 
 type GraphicStyle = string | CanvasGradient | CanvasPattern;
 type FillStrokeOrder = "fill-first" | "stroke-first";
@@ -15,11 +20,14 @@ export interface ShapeStyles {
     fillStrokeOrder?: FillStrokeOrder;
 }
 
-class Shape {
+class Shape implements Interactive {
+    readonly id: string;
     styles: ShapeStyles;
     stack: any[];
+    eventHandler: IEventHandler = new EventHandlerItem();
 
     constructor(styles) {
+        this.id = uuid();
         this.styles = styles;
         this.stack = [];
     }
@@ -70,6 +78,24 @@ class Shape {
 
         ctx.fillStyle = style.fill;
         ctx.fill(path);
+    }
+
+    on<K extends keyof EventType>(type: K, listener: (ev: EventType[K]) => void): this {
+        this.eventHandler.add(this, type, listener);
+        return this;
+    }
+
+    off<K extends keyof EventType>(type: K): this {
+        this.eventHandler.remove(this, type);
+        return this;
+    }
+
+    inPath(p: Point): boolean {
+        return ContextFactory.context.isPointInPath(this.toPath2D(), p.x, p.y);
+    }
+
+    toPath2D(): Path2D {
+        return createPath2D(this.stack);
     }
 
     circle(x: number, y: number, radius: number) {

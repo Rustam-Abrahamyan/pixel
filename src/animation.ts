@@ -1,7 +1,3 @@
-interface IndexableWindow {
-    [key: string]: any;
-}
-
 const animation: {
     requestAnimationFrame(callback: FrameRequestCallback): number;
     cancelAnimationFrame(id: number): void;
@@ -12,14 +8,13 @@ const animation: {
 
 if (window) {
     const vendors = ["ms", "moz", "webkit", "o"];
-    const win = window as IndexableWindow;
 
     animation.requestAnimationFrame = vendors
-        .map((vendor) => win[vendor + "RequestAnimationFrame"])
+        .map((vendor) => window[vendor + "RequestAnimationFrame"])
         .reduce((accumulator, func) => accumulator || func, window.requestAnimationFrame);
 
     animation.cancelAnimationFrame = vendors
-        .map((vendor) => win[vendor + "CancelAnimationFrame"] || win[vendor + "CancelRequestAnimationFrame"])
+        .map((vendor) => window[vendor + "CancelAnimationFrame"] || window[vendor + "CancelRequestAnimationFrame"])
         .reduce((accumulator, func) => accumulator || func, window.cancelAnimationFrame);
 }
 

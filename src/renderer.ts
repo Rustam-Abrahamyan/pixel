@@ -1,11 +1,14 @@
 import Layer from "./layer";
 import Scene from "./scene";
 import Viewport from "./viewport";
+import EventHandler from "./events/eventHandler";
 import { requestAnimationFrame } from "./animation";
 
 class Renderer {
     readonly ctx: CanvasRenderingContext2D;
     readonly viewport: Viewport;
+
+    #eventHandler: EventHandler | null = null;
 
     onFrameChanged: (() => void) | null = null;
 
@@ -35,7 +38,22 @@ class Renderer {
     }
 
     protected drawLayer(layer: Readonly<Layer>) {
-        layer.drawShapes(this.ctx);
+        for (const shape of layer.shapes) {
+            shape.draw(this.ctx);
+            this.setHandler(shape);
+        }
+    }
+
+    protected setHandler(obj) {
+        this.eventHandler.from(obj.eventHandler);
+
+        obj.eventHandler = this.eventHandler;
+    }
+
+    protected get eventHandler(): EventHandler {
+        if (this.#eventHandler) return this.#eventHandler;
+        
+        return (this.#eventHandler = new EventHandler(this.getCanvas()));
     }
 }
 

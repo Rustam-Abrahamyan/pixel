@@ -5,8 +5,30 @@ let fillColor = getRandomColor();
 const scene = new Scene();
 
 const layer = scene.createLayer();
-const shapeCircle = layer.createShape({ fill: fillColor }).circle(100, 100, 50);
-const shapeRect = layer.createShape({ fill: fillColor }).rect(200, 75, 100, 50);
+const shapeCircle = layer
+    .createShape({ fill: fillColor })
+    .circle(100, 100, 50)
+    .on("contextmenu", (e) => {        
+        console.log("Custom context menu");
+    })
+    .on("hover", (e) => {
+        e.target.stack[0].radius = 75;
+        // e.target.styles;
+        console.log("Circle :>> hover");
+    })
+    .on("leave", (e) => {
+        e.target.stack[0].radius = 50;
+        console.log("Circle :>> leave");
+    });
+const shapeRect = layer
+    .createShape({ fill: fillColor })
+    .rect(200, 75, 100, 50)
+    .on("hover", (e) => {
+        console.log("Rect :>> hover");
+    })
+    .on("leave", (e) => {
+        console.log("Rect :>> leave");
+    });
 
 const canvas = document.getElementById("canvas");
 

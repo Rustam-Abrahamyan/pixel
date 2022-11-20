@@ -1,4 +1,5 @@
 import Shape, { ShapeStyles } from "./shape";
+
 class Layer {
     name: string;
     shapes: any[];
@@ -14,12 +15,6 @@ class Layer {
         this.shapes.push(shape);
 
         return shape;
-    }
-
-    drawShapes(ctx): void {
-        for (const shape of this.shapes) {
-            shape.draw(ctx);
-        }
     }
 }
 

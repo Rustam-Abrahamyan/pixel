@@ -7,4 +7,12 @@ const Shapes = {
     },
 };
 
+export function createPath2D(stack): Path2D {
+    const path = new Path2D();
+
+    for (const shape of stack) Shapes[shape.type](path, { ...shape });
+
+    return path;
+}
+
 export default Shapes;
